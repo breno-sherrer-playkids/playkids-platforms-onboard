@@ -6,6 +6,7 @@
         <compilerSettings />
         <compilerArguments>
           <option name="destination" value="$MODULE_DIR$/../../build/classes/kotlin/main" />
+          <option name="classpath" value="" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="playkids-platforms-onboard" />
@@ -19,7 +20,6 @@
           <option name="pluginClasspaths">
             <array />
           </option>
-          <option name="coroutinesState" value="enable" />
         </compilerArguments>
       </configuration>
     </facet>
