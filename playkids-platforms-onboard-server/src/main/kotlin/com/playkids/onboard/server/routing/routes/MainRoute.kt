@@ -10,9 +10,9 @@ import io.ktor.routing.get
 /**
  * Default routing to access "/".
  */
-object MainRoute : Routable() {
+class MainRoute : Routable() {
 
-    override val SERVICE_PATH: String
+    override val servicePath: String
         get() = ""
 
     override fun configureRoute(route: Route) {

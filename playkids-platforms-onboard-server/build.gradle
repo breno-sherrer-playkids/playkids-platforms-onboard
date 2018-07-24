@@ -37,6 +37,9 @@ dependencies {
     compile "io.ktor:ktor-auth-jwt:$ktor_version"
 
     compile project(':playkids-platforms-onboard-model')
+    compile project(':playkids-platforms-onboard-business')
+    compile project(':playkids-platforms-onboard-utils')
+    compile project(':playkids-platforms-onboard-auth')
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

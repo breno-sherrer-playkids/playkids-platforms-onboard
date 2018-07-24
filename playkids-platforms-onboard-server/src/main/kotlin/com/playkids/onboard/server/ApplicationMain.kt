@@ -3,22 +3,20 @@ package com.playkids.onboard.server
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.introspect.AnnotatedMember
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector
-import com.playkids.onboard.server.commons.SimpleJWT
 import com.playkids.onboard.server.routing.ApplicationRouter
+import com.playkids.onboard.utils.DomainException
 import io.ktor.application.Application
+import io.ktor.application.call
 import io.ktor.application.install
-import io.ktor.auth.Authentication
-import io.ktor.auth.UserIdPrincipal
-import io.ktor.auth.jwt.jwt
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
+import io.ktor.features.StatusPages
 import io.ktor.jackson.jackson
+import io.ktor.response.respond
 import io.ktor.routing.Routing
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.IntEntity
-
-val simpleJwt = SimpleJWT("my-super-secret-for-jwt")
 
 /**
  * Main Application, define the routing mechanism and install features.
@@ -46,15 +44,11 @@ fun Application.main() {
         }
     }
 
+    install(StatusPages) {
 
-    install(Authentication) {
-        jwt {
-
-            verifier(simpleJwt.verifier)
-
-            validate {
-                UserIdPrincipal(it.payload.getClaim("name").asString())
-            }
+        // Custom exception handling
+        exception<DomainException> {
+            call.respond(it.httpStatusCode, it.errors)
         }
     }
 
