@@ -18,8 +18,8 @@ class EventLog(ID: EntityID<Int>) : IntEntity(ID) {
     var type
             by EventLogTable.type
 
-    var user
-            by User.DAO referencedOn EventLogTable.user
+    var author
+            by EventLogTable.author
 
     var eventDateTime
             by EventLogTable.eventDateTime
