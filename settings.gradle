@@ -2,8 +2,7 @@ String[] modules = [
         'playkids-platforms-onboard-server',
         'playkids-platforms-onboard-model',
         'playkids-platforms-onboard-business',
-        'playkids-platforms-onboard-utils',
-        'playkids-platforms-onboard-auth'
+        'playkids-platforms-onboard-commons'
 ]
 
 rootProject.name = 'playkids-platforms-onboard'

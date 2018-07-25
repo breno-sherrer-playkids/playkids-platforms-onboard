@@ -1,6 +1,6 @@
 package com.playkids.onboard.server.routing.routes
 
-import com.playkids.auth.ServerSecurityToken
+import com.playkids.business.auth.ServerSecurityToken
 import com.playkids.business.services.AuthenticationService
 import com.playkids.business.services.UserService
 import com.playkids.onboard.server.routing.Routable
@@ -57,5 +57,5 @@ class AuthenticationRoute(
     }
 }
 
-data class AuthenticationRequest(val username: String? = null, val password: String? = null)
-data class AuthenticationResponse(val token: String)
+private data class AuthenticationRequest(val username: String? = null, val password: String? = null)
+private data class AuthenticationResponse(val token: String)

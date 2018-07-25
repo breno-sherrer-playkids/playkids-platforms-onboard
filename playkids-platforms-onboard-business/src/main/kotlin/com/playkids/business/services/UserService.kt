@@ -1,13 +1,14 @@
 package com.playkids.business.services
 
-import com.playkids.auth.SecurityToken
-import com.playkids.auth.UserSecurityToken
+import com.playkids.business.auth.SecurityToken
+import com.playkids.business.auth.UserSecurityToken
+import com.playkids.onboard.commons.DomainException
+import com.playkids.onboard.commons.EntityNotFoundException
+import com.playkids.onboard.commons.ValidationIssue
 import com.playkids.onboard.model.persistent.DatabaseConfigurator
 import com.playkids.onboard.model.persistent.constants.UserConstants
 import com.playkids.onboard.model.persistent.entity.User
 import com.playkids.onboard.model.persistent.table.UserTable
-import com.playkids.onboard.utils.DomainException
-import com.playkids.onboard.utils.ValidationIssue
 import io.ktor.util.encodeBase64
 import org.jetbrains.exposed.sql.and
 import java.math.BigDecimal
@@ -28,10 +29,10 @@ class UserService(
                 val issues = mutableListOf<ValidationIssue>()
 
                 if (userName.isNullOrBlank()) {
-                    issues.add(UserValidationIssues.USERNAME_BLANK)
+                    issues.add(UserValidationIssue.USERNAME_BLANK)
 
                 } else if (userName!!.length < 5) {
-                    issues.add(UserValidationIssues.USERNAME_TOO_SHORT)
+                    issues.add(UserValidationIssue.USERNAME_TOO_SHORT)
 
                 } else {
 
@@ -40,17 +41,17 @@ class UserService(
                     }
 
                     if (userSameUsername.count() != 0) {
-                        issues.add(UserValidationIssues.USERNAME_DUPLICATED)
+                        issues.add(UserValidationIssue.USERNAME_DUPLICATED)
                     }
                 }
 
                 if (password.isNullOrBlank()) {
-                    issues.add(UserValidationIssues.PASSWORD_BLANK)
+                    issues.add(UserValidationIssue.PASSWORD_BLANK)
                 } else if (password!!.length < 8) {
-                    issues.add(UserValidationIssues.PASSWORD_TOO_SHORT)
+                    issues.add(UserValidationIssue.PASSWORD_TOO_SHORT)
                 }
 
-                if (!issues.isEmpty()) {
+                if (issues.isNotEmpty()) {
                     throw DomainException(issues)
                 }
 
@@ -89,14 +90,15 @@ class UserService(
     suspend fun buyCredits(securityToken: SecurityToken, quantity: BigDecimal?) {
 
         if (quantity == null || quantity <= BigDecimal.ZERO) {
-            throw DomainException(listOf(UserValidationIssues.CREDITS_INVALID_QUANTITY))
+            throw DomainException(listOf(UserValidationIssue.CREDITS_INVALID_QUANTITY))
         }
 
         if (securityToken !is UserSecurityToken) {
             throw IllegalStateException("Tried to buy credits without an User Token")
         }
 
-        val user = findByUsername(securityToken, securityToken.principal)!!
+        val user = userDAO.findById(securityToken.user.id)
+                ?: throw EntityNotFoundException(User::class, securityToken.user.id.value)
 
         DatabaseConfigurator.transactionalContext {
             user.credits = user.credits.add(quantity.setScale(2, RoundingMode.HALF_UP))
@@ -104,9 +106,30 @@ class UserService(
     }
 
     /**
+     * Gets and consumes an User Congratulation flag.
+     */
+    suspend fun getAndConsumeCongratulations(securityToken: SecurityToken): Boolean {
+
+        if (securityToken !is UserSecurityToken) {
+            throw IllegalStateException("Tried to consume congratulations without an User Token")
+        }
+
+        if (securityToken.user.congratulate) {
+
+            DatabaseConfigurator.transactionalContext {
+                securityToken.user.congratulate = false
+            }
+
+            return true
+        }
+
+        return false
+    }
+
+    /**
      * Enum defining the Validation issues for an User Entity.
      */
-    enum class UserValidationIssues(
+    enum class UserValidationIssue(
             override val title: String,
             override val description: String) : ValidationIssue {
 

@@ -1,11 +1,11 @@
-package com.playkids.onboard.utils
+package com.playkids.onboard.commons
 
 import io.ktor.http.HttpStatusCode
 
 /**
  * Custom exception for validations.
  */
-class DomainException(
+open class DomainException(
         val errors: Collection<ErrorDetail>,
         val httpStatusCode: HttpStatusCode = HttpStatusCode.BadRequest) : RuntimeException() {
 
