@@ -17,8 +17,8 @@ class User(ID: EntityID<Int>) : IntEntity(ID) {
      */
     object DAO : IntEntityClass<User>(UserTable)
 
-    var userName
-            by UserTable.userName
+    var email
+            by UserTable.email
 
     var password
             by UserTable.password

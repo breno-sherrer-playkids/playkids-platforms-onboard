@@ -30,7 +30,7 @@ class AuthenticationService(
      */
     suspend fun generateUserSecurityToken(token: String): SecurityToken? =
             decodeToken(token)
-                    ?.let { userService.findByUsername(ServerSecurityToken, it.getClaim(Claims.USERNAME).asString()) }
+                    ?.let { userService.findByEmail(ServerSecurityToken, it.getClaim(Claims.USERNAME).asString()) }
                     ?.let { UserSecurityToken(it) }
 
     /**
@@ -49,7 +49,7 @@ class AuthenticationService(
     fun generateToken(user: User): String =
             JWT.create()
                     .withIssuer(JWT_ISSUER)
-                    .withClaim(Claims.USERNAME, user.userName)
+                    .withClaim(Claims.USERNAME, user.email)
                     .withExpiresAt(Date(Clock.systemDefaultZone().instant().plus(TOKEN_TTL).toEpochMilli()))
                     .sign(jwtAlgorithm)
 

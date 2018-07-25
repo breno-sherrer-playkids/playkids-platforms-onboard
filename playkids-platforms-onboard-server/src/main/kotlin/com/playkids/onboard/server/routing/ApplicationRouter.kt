@@ -1,9 +1,6 @@
 package com.playkids.onboard.server.routing
 
-import com.playkids.business.services.AuthenticationService
-import com.playkids.business.services.LotteryService
-import com.playkids.business.services.TicketService
-import com.playkids.business.services.UserService
+import com.playkids.business.services.*
 import com.playkids.onboard.model.persistent.entity.Lottery
 import com.playkids.onboard.model.persistent.entity.Ticket
 import com.playkids.onboard.model.persistent.entity.User
@@ -16,8 +13,9 @@ import io.netty.util.internal.logging.InternalLoggerFactory
  */
 object ApplicationRouter {
 
+    private val emailService = EmailService()
     private val userService = UserService(User.DAO)
-    private val lotteryService = LotteryService(Lottery.DAO)
+    private val lotteryService = LotteryService(Lottery.DAO, emailService)
     private val ticketService = TicketService(Ticket.DAO, Lottery.DAO)
 
     private val authenticationService = AuthenticationService(userService)

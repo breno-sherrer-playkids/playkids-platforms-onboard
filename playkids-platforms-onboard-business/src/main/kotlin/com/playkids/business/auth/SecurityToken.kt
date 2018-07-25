@@ -8,4 +8,4 @@ import com.playkids.onboard.model.persistent.entity.User
 sealed class SecurityToken(val principal: String)
 
 object ServerSecurityToken : SecurityToken("server")
-data class UserSecurityToken(val user: User) : SecurityToken(user.userName)
+data class UserSecurityToken(val user: User) : SecurityToken(user.email)
