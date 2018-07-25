@@ -3,8 +3,9 @@ package com.playkids.onboard.server
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.introspect.AnnotatedMember
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector
+import com.fasterxml.jackson.datatype.joda.JodaModule
+import com.playkids.onboard.commons.DomainException
 import com.playkids.onboard.server.routing.ApplicationRouter
-import com.playkids.onboard.utils.DomainException
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -17,6 +18,7 @@ import io.ktor.response.respond
 import io.ktor.routing.Routing
 import org.jetbrains.exposed.dao.Entity
 import org.jetbrains.exposed.dao.IntEntity
+import java.util.*
 
 /**
  * Main Application, define the routing mechanism and install features.
@@ -31,6 +33,12 @@ fun Application.main() {
 
     install(ContentNegotiation) {
         jackson {
+
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            setTimeZone(TimeZone.getTimeZone("America/Sao_Paulo"))
+
+            registerModule(JodaModule())
+
             enable(SerializationFeature.INDENT_OUTPUT)
 
             // Override the annotation introspector to ignore all IntEntity/Entity classes, since they delegate the

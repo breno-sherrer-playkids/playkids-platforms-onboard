@@ -3,24 +3,26 @@ package com.playkids.onboard.server.routing.routes
 import com.playkids.business.auth.authenticate
 import com.playkids.business.auth.securityToken
 import com.playkids.business.services.AuthenticationService
-import com.playkids.business.services.UserService
+import com.playkids.business.services.TicketService
+import com.playkids.onboard.model.persistent.entity.dto
 import com.playkids.onboard.server.routing.Routable
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
+import io.ktor.routing.get
 import io.ktor.routing.post
 
 /**
- * Defines the "User" route.
+ * Defines the Ticket route.
  */
-class UserRoute(
+class TicketRoute(
         private val authenticationService: AuthenticationService,
-        private val userService: UserService) : Routable() {
+        private val ticketService: TicketService) : Routable() {
 
     override val servicePath: String
-        get() = "/user"
+        get() = "/ticket"
 
     override fun configureRoute(route: Route) {
         route {
@@ -28,26 +30,27 @@ class UserRoute(
             authenticate(authenticationService)
 
             /**
-             * Gets and Consumes a Congratulation flag.
+             * Gets all Tickets owned by User.
              */
-            post("/congratulate") {
-                val response = mapOf("congratulate" to userService.getAndConsumeCongratulations(call.securityToken()))
-
-                call.respond(response)
+            get {
+                call.respond(ticketService.findAllOwnedByUser(call.securityToken()).map { it.dto() })
             }
 
             /**
-             * Buy Credits.
+             * Buys a Ticket.
              */
-            post("/buy-credits") {
+            post {
+                val (idLottery) = call.receive(BuyTicketRequest::class)
 
-                val payload = call.receive<HashMap<String, Any>>()
-                val quantity = (payload["quantity"] as Number?)?.toDouble()?.toBigDecimal()
-
-                userService.buyCredits(call.securityToken(), quantity)
+                ticketService.buyTicket(call.securityToken(), idLottery)
 
                 call.respond(HttpStatusCode.OK)
             }
         }
     }
 }
+
+/**
+ * Request payload for a Ticket purchase.
+ */
+private data class BuyTicketRequest(val idLottery: Int? = null)
