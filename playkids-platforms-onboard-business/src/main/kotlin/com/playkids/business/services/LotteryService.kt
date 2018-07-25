@@ -2,6 +2,8 @@ package com.playkids.business.services
 
 import com.playkids.business.auth.SecurityToken
 import com.playkids.business.auth.ServerSecurityToken
+import com.playkids.business.event.Event
+import com.playkids.business.event.EventLogger
 import com.playkids.onboard.commons.DomainException
 import com.playkids.onboard.commons.ValidationIssue
 import com.playkids.onboard.model.persistent.DatabaseConfigurator
@@ -20,6 +22,7 @@ import java.util.*
  * Provides functionalities related to the "Lottery" Entity.
  */
 class LotteryService(
+        private val eventLogger: EventLogger,
         private val lotteryDAO: Lottery.DAO,
         private val emailService: EmailService) {
 
@@ -64,6 +67,8 @@ class LotteryService(
                 this.lotteryDateTime = lotteryDateTime!!
             }
         }
+
+        eventLogger.log(securityToken, Event.LOTTERY_CREATION)
     }
 
     /**
@@ -107,7 +112,6 @@ class LotteryService(
                 val tickets = it.tickets.toList()
 
                 val winnerTicket = tickets[Random().nextInt(tickets.size)]
-
                 val winnerUser = winnerTicket.user
 
                 InternalLoggerFactory
@@ -120,16 +124,22 @@ class LotteryService(
                 winnerUser.credits = winnerUser.credits.add(it.prize)
                 winnerUser.congratulate = true
 
+                launch {
+                    eventLogger.log(securityToken, Event.LOTTERY_RAFFLE)
+                }
+
                 val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
                     println("Failed to send E-Mail: ${throwable.localizedMessage}")
                 }
 
                 launch(coroutineExceptionHandler) {
 
+                    val prettyPrize = String.format("%.2f", it.prize.toDouble())
+
                     emailService.sendEmail(
                             winnerUser.email,
-                            "PlayKids Lottery - Congratulations!",
-                            "<html><h1>You won ${it.prize}!!!</h1></html>")
+                            "PlayKids Lottery '${it.title}' - Congratulations!",
+                            "<html><h1>You've won $prettyPrize!!!</h1></html>")
                 }
             }
         }

@@ -10,8 +10,8 @@ object EventLogTable : IntIdTable("eventlog") {
     val type =
             varchar("type", 30)
 
-    val user =
-            reference("iduser", UserTable)
+    val author =
+            varchar("author", 80)
 
     val eventDateTime =
             datetime("eventdatetime")

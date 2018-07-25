@@ -5,7 +5,7 @@ drop table if exists ticket cascade;
 drop table if exists eventlog cascade;
 */
 
-CREATE TABLE IF NOT EXISTS "user" (id SERIAL PRIMARY KEY, username VARCHAR(20) NOT NULL, password TEXT NOT NULL, credits DECIMAL(10, 4) NOT NULL, congratulate BOOLEAN DEFAULT false NOT NULL);
+CREATE TABLE IF NOT EXISTS "user" (id SERIAL PRIMARY KEY, email VARCHAR(80) NOT NULL UNIQUE, password TEXT NOT NULL, credits DECIMAL(10, 4) NOT NULL, congratulate BOOLEAN DEFAULT false NOT NULL);
 
 CREATE TABLE IF NOT EXISTS ticket (id SERIAL PRIMARY KEY, iduser INT NOT NULL, idlottery INT NOT NULL, buydatetime TIMESTAMP NOT NULL,  FOREIGN KEY (iduser) REFERENCES "user"(id) ON DELETE RESTRICT);
 
@@ -17,8 +17,8 @@ alter table ticket
     REFERENCES lottery (ID) on delete restrict;
 
 CREATE TABLE eventlog (
-	ID integer PRIMARY KEY NOT NULL,
+	id SERIAL PRIMARY KEY,
 	type varchar(30) NOT NULL,
-	IDUser integer NOT NULL REFERENCES "user" (ID),
+	author varchar(80) NOT NULL,
 	eventDateTime timestamp NOT NULL
 );

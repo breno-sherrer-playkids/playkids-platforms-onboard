@@ -2,6 +2,8 @@ package com.playkids.business.services
 
 import com.playkids.business.auth.SecurityToken
 import com.playkids.business.auth.UserSecurityToken
+import com.playkids.business.event.Event
+import com.playkids.business.event.EventLogger
 import com.playkids.onboard.commons.DomainException
 import com.playkids.onboard.commons.EntityNotFoundException
 import com.playkids.onboard.commons.ValidationIssue
@@ -10,6 +12,7 @@ import com.playkids.onboard.model.persistent.constants.UserConstants
 import com.playkids.onboard.model.persistent.entity.User
 import com.playkids.onboard.model.persistent.table.UserTable
 import io.ktor.util.encodeBase64
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.exposed.sql.and
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -18,6 +21,7 @@ import java.math.RoundingMode
  * Provides functionalities related to the "User" Entity.
  */
 class UserService(
+        private val eventLogger: EventLogger,
         private val userDAO: User.DAO) {
 
     /**
@@ -58,6 +62,10 @@ class UserService(
 
                 if (issues.isNotEmpty()) {
                     throw DomainException(issues)
+                }
+
+                launch {
+                    eventLogger.log(securityToken, Event.USER_CREATION)
                 }
 
                 return@transactionalContext userDAO.new {
@@ -108,6 +116,8 @@ class UserService(
 
             user.credits = user.credits.add(quantity.setScale(2, RoundingMode.HALF_UP))
         }
+
+        eventLogger.log(securityToken, Event.USER_CREDIT_PURCHASE)
     }
 
     /**
@@ -124,6 +134,8 @@ class UserService(
             DatabaseConfigurator.transactionalContext {
                 securityToken.user.congratulate = false
             }
+
+            eventLogger.log(securityToken, Event.USER_CONGRATULATION)
 
             return true
         }

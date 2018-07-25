@@ -17,8 +17,14 @@ class MainRoute : Routable() {
 
     override fun configureRoute(route: Route) {
 
-        route.get("/") {
-            call.respond(HttpStatusCode.OK)
+        route {
+
+            /**
+             * Heart-beat.
+             */
+            get("/health") {
+                call.respond(HttpStatusCode.OK)
+            }
         }
     }
 }

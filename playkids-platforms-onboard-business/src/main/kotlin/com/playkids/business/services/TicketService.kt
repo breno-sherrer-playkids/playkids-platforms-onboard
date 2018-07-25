@@ -2,6 +2,8 @@ package com.playkids.business.services
 
 import com.playkids.business.auth.SecurityToken
 import com.playkids.business.auth.UserSecurityToken
+import com.playkids.business.event.Event
+import com.playkids.business.event.EventLogger
 import com.playkids.onboard.commons.DomainException
 import com.playkids.onboard.commons.EntityNotFoundException
 import com.playkids.onboard.commons.ValidationIssue
@@ -16,6 +18,7 @@ import org.joda.time.DateTime
  * Provides functionalities related to the "Ticket" Entity.
  */
 class TicketService(
+        private val eventLogger: EventLogger,
         private val ticketDAO: Ticket.DAO,
         private val lotteryDAO: Lottery.DAO) {
 
@@ -59,6 +62,8 @@ class TicketService(
                 this.buyDateTime = DateTime.now()
             }
         }
+
+        eventLogger.log(securityToken, Event.TICKET_BUYING)
     }
 
     /**
