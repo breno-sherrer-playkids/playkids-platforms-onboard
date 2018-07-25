@@ -29,6 +29,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "io.ktor:ktor-auth-jwt:$ktor_version"
 
+    compile group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+
     compile project(':playkids-platforms-onboard-model')
     compile project(':playkids-platforms-onboard-commons')
 }

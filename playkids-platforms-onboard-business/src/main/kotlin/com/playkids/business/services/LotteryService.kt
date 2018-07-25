@@ -9,6 +9,8 @@ import com.playkids.onboard.model.persistent.constants.LotteryConstants
 import com.playkids.onboard.model.persistent.entity.Lottery
 import com.playkids.onboard.model.persistent.table.LotteryTable
 import io.netty.util.internal.logging.InternalLoggerFactory
+import kotlinx.coroutines.experimental.CoroutineExceptionHandler
+import kotlinx.coroutines.experimental.launch
 import org.jetbrains.exposed.sql.and
 import org.joda.time.DateTime
 import java.math.BigDecimal
@@ -18,7 +20,8 @@ import java.util.*
  * Provides functionalities related to the "Lottery" Entity.
  */
 class LotteryService(
-        private val lotteryDAO: Lottery.DAO) {
+        private val lotteryDAO: Lottery.DAO,
+        private val emailService: EmailService) {
 
     /**
      * Creates a Lottery.
@@ -100,19 +103,34 @@ class LotteryService(
         pendingLotteries.forEach {
 
             DatabaseConfigurator.transactionalContext {
+
                 val tickets = it.tickets.toList()
 
                 val winnerTicket = tickets[Random().nextInt(tickets.size)]
 
+                val winnerUser = winnerTicket.user
+
                 InternalLoggerFactory
                         .getInstance(this::class.java)
-                        .info("Raffle: Lottery '${it.title}' winner: ${winnerTicket.user.userName}")
+                        .info("Raffle: Lottery '${it.title}' winner: ${winnerUser.email}")
 
                 it.winnerTicket = winnerTicket
                 it.status = LotteryConstants.StatusConstants.FINALIZED
 
-                winnerTicket.user.credits = winnerTicket.user.credits.add(it.prize)
-                winnerTicket.user.congratulate = true
+                winnerUser.credits = winnerUser.credits.add(it.prize)
+                winnerUser.congratulate = true
+
+                val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+                    println("Failed to send E-Mail: ${throwable.localizedMessage}")
+                }
+
+                launch(coroutineExceptionHandler) {
+
+                    emailService.sendEmail(
+                            winnerUser.email,
+                            "PlayKids Lottery - Congratulations!",
+                            "<html><h1>You won ${it.prize}!!!</h1></html>")
+                }
             }
         }
     }

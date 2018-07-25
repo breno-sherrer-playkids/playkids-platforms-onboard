@@ -23,25 +23,30 @@ class UserService(
     /**
      * Creates an User Entity.
      */
-    suspend fun createUser(securityToken: SecurityToken, userName: String?, password: String?): User =
+    suspend fun createUser(securityToken: SecurityToken, email: String?, password: String?): User =
             DatabaseConfigurator.transactionalContext {
 
                 val issues = mutableListOf<ValidationIssue>()
 
-                if (userName.isNullOrBlank()) {
-                    issues.add(UserValidationIssue.USERNAME_BLANK)
-
-                } else if (userName!!.length < 5) {
-                    issues.add(UserValidationIssue.USERNAME_TOO_SHORT)
+                if (email.isNullOrBlank()) {
+                    issues.add(UserValidationIssue.EMAIL_BLANK)
 
                 } else {
+                    val validEmailRegex =
+                            "(?:[a-z0-9!#\$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#\$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])"
 
-                    val userSameUsername = userDAO.find {
-                        UserTable.userName eq userName
-                    }
+                    if (!email!!.matches(Regex(validEmailRegex))) {
+                        issues.add(UserValidationIssue.EMAIL_INVALID)
 
-                    if (userSameUsername.count() != 0) {
-                        issues.add(UserValidationIssue.USERNAME_DUPLICATED)
+                    } else {
+
+                        val userSameEmail = userDAO.find {
+                            UserTable.email eq email
+                        }
+
+                        if (userSameEmail.count() != 0) {
+                            issues.add(UserValidationIssue.EMAIL_DUPLICATED)
+                        }
                     }
                 }
 
@@ -56,31 +61,31 @@ class UserService(
                 }
 
                 return@transactionalContext userDAO.new {
-                    this.userName = userName!!
+                    this.email = email!!
                     this.password = encodeBase64(password!!.toByteArray())
                     this.credits = BigDecimal(UserConstants.DEFAULT_CREDITS_SIGNUP)
                 }
             }
 
     /**
-     * Find an User by its username.
+     * Find an User by its E-Mail.
      */
-    suspend fun findByUsername(securityToken: SecurityToken, userName: String) =
+    suspend fun findByEmail(securityToken: SecurityToken, email: String) =
             DatabaseConfigurator.transactionalContext {
 
                 userDAO.find {
-                    UserTable.userName eq userName
+                    UserTable.email eq email
                 }.firstOrNull()
             }
 
     /**
-     * Find an matching User by its username and password.
+     * Find an matching User by its email and password.
      */
-    suspend fun findByCredentials(securityToken: SecurityToken, userName: String, password: String) =
+    suspend fun findByCredentials(securityToken: SecurityToken, email: String, password: String) =
             DatabaseConfigurator.transactionalContext {
 
                 userDAO.find {
-                    UserTable.userName eq userName and (UserTable.password eq encodeBase64(password.toByteArray()))
+                    UserTable.email eq email and (UserTable.password eq encodeBase64(password.toByteArray()))
                 }.firstOrNull()
             }
 
@@ -97,10 +102,10 @@ class UserService(
             throw IllegalStateException("Tried to buy credits without an User Token")
         }
 
-        val user = userDAO.findById(securityToken.user.id)
-                ?: throw EntityNotFoundException(User::class, securityToken.user.id.value)
-
         DatabaseConfigurator.transactionalContext {
+            val user = userDAO.findById(securityToken.user.id)
+                    ?: throw EntityNotFoundException(User::class, securityToken.user.id.value)
+
             user.credits = user.credits.add(quantity.setScale(2, RoundingMode.HALF_UP))
         }
     }
@@ -133,17 +138,17 @@ class UserService(
             override val title: String,
             override val description: String) : ValidationIssue {
 
-        USERNAME_BLANK(
+        EMAIL_BLANK(
                 "Failed to create an User",
-                "Username must be informed"),
+                "E-Mail must be informed"),
 
-        USERNAME_TOO_SHORT(
+        EMAIL_INVALID(
                 "Failed to create an User",
-                "Username must have at least 5 characters"),
+                "E-Mail invalid"),
 
-        USERNAME_DUPLICATED(
+        EMAIL_DUPLICATED(
                 "Failed to create an User",
-                "Username already exists"),
+                "E-Mail already exists"),
 
         PASSWORD_BLANK(
                 "Failed to create an User",
