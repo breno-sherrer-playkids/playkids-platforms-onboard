@@ -1,6 +1,7 @@
 package com.playkids.onboard.model.persistent.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.playkids.onboard.model.dto.LotteryDTO
 import com.playkids.onboard.model.persistent.table.LotteryTable
 import com.playkids.onboard.model.persistent.table.TicketTable
 import org.jetbrains.exposed.dao.EntityID
@@ -42,3 +43,8 @@ class Lottery(ID: EntityID<Int>) : IntEntity(ID) {
     val tickets
             by Ticket.DAO referrersOn TicketTable.lottery
 }
+
+/**
+ * Transform a Lottery into a LotteryDTO.
+ */
+fun Lottery.dto() = LotteryDTO(this.id.value, this.title, this.prize, this.ticketPrice, this.lotteryDateTime)

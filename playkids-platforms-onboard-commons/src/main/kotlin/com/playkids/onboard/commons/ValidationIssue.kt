@@ -1,4 +1,4 @@
-package com.playkids.onboard.utils
+package com.playkids.onboard.commons
 
 /**
  * Describes a simple Validation Issue.

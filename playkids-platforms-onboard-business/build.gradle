@@ -1,5 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.2.51'
+    ext.ktor_version = '0.9.3'
 
     repositories {
         mavenCentral()
@@ -26,8 +27,8 @@ kotlin {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "io.ktor:ktor-auth-jwt:$ktor_version"
 
     compile project(':playkids-platforms-onboard-model')
-    compile project(':playkids-platforms-onboard-utils')
-    compile project(':playkids-platforms-onboard-auth')
+    compile project(':playkids-platforms-onboard-commons')
 }

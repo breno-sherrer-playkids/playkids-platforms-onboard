@@ -1,4 +1,4 @@
-package com.playkids.auth
+package com.playkids.business.auth
 
 import com.playkids.business.services.AuthenticationService
 import io.ktor.application.ApplicationCall

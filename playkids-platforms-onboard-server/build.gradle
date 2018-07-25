@@ -36,10 +36,11 @@ dependencies {
     compile "io.ktor:ktor-jackson:$ktor_version"
     compile "io.ktor:ktor-auth-jwt:$ktor_version"
 
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-joda', version: '2.9.5'
+
     compile project(':playkids-platforms-onboard-model')
     compile project(':playkids-platforms-onboard-business')
-    compile project(':playkids-platforms-onboard-utils')
-    compile project(':playkids-platforms-onboard-auth')
+    compile project(':playkids-platforms-onboard-commons')
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }

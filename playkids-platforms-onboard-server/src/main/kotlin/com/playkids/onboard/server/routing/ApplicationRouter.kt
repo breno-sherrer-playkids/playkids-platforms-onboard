@@ -1,11 +1,13 @@
 package com.playkids.onboard.server.routing
 
 import com.playkids.business.services.AuthenticationService
+import com.playkids.business.services.LotteryService
+import com.playkids.business.services.TicketService
 import com.playkids.business.services.UserService
+import com.playkids.onboard.model.persistent.entity.Lottery
+import com.playkids.onboard.model.persistent.entity.Ticket
 import com.playkids.onboard.model.persistent.entity.User
-import com.playkids.onboard.server.routing.routes.AuthenticationRoute
-import com.playkids.onboard.server.routing.routes.MainRoute
-import com.playkids.onboard.server.routing.routes.UserRoute
+import com.playkids.onboard.server.routing.routes.*
 import io.ktor.routing.Routing
 import io.netty.util.internal.logging.InternalLoggerFactory
 
@@ -15,6 +17,9 @@ import io.netty.util.internal.logging.InternalLoggerFactory
 object ApplicationRouter {
 
     private val userService = UserService(User.DAO)
+    private val lotteryService = LotteryService(Lottery.DAO)
+    private val ticketService = TicketService(Ticket.DAO, Lottery.DAO)
+
     private val authenticationService = AuthenticationService(userService)
 
     /**
@@ -22,13 +27,25 @@ object ApplicationRouter {
      */
     private val routeServices = setOf(
             MainRoute(),
+
             UserRoute(
                     authenticationService,
                     userService
             ),
+
             AuthenticationRoute(
                     authenticationService,
                     userService
+            ),
+
+            LotteryRoute(
+                    authenticationService,
+                    lotteryService
+            ),
+
+            TicketRoute(
+                    authenticationService,
+                    ticketService
             )
     )
 
