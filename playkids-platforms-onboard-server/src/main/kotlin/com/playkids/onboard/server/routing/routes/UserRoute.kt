@@ -1,11 +1,15 @@
 package com.playkids.onboard.server.routing.routes
 
+import com.playkids.auth.authenticate
+import com.playkids.auth.securityToken
+import com.playkids.business.services.AuthenticationService
+import com.playkids.business.services.UserService
 import com.playkids.onboard.server.routing.Routable
 import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Route
-import io.ktor.routing.get
 import io.ktor.routing.post
 
 /**
@@ -13,22 +17,26 @@ import io.ktor.routing.post
  *
  * Path [/user]
  */
-object UserRoute : Routable() {
+class UserRoute(
+        private val authenticationService: AuthenticationService,
+        private val userService: UserService) : Routable() {
 
-    override val SERVICE_PATH: String
+    override val servicePath: String
         get() = "/user"
 
     override fun configureRoute(route: Route) {
         route {
 
-            get {
-                call.respond("OK")
-            }
+            authenticate(authenticationService)
 
-            post {
-                val receivedUser = call.receive<HashMap<String, Any>>()
+            post("/buy-credits") {
 
-                call.respond("Received: ${receivedUser.keys}")
+                val payload = call.receive<HashMap<String, Any>>()
+                val quantity = (payload["quantity"] as Number?)?.toDouble()?.toBigDecimal()
+
+                userService.buyCredits(call.securityToken(), quantity)
+
+                call.respond(HttpStatusCode.OK)
             }
         }
     }

@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.IntIdTable
 /**
  * "EventLog" Table Definition.
  */
-internal object EventLogTable : IntIdTable("eventlog") {
+object EventLogTable : IntIdTable("eventlog") {
 
     val type =
             varchar("type", 30)

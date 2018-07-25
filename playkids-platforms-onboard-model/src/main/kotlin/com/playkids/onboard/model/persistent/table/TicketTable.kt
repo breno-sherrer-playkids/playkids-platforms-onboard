@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.IntIdTable
 /**
  * "Ticket" Table Definition.
  */
-internal object TicketTable : IntIdTable("ticket") {
+object TicketTable : IntIdTable("ticket") {
 
     val user =
             reference("iduser", UserTable)

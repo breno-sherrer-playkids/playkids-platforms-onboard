@@ -5,9 +5,9 @@ import org.jetbrains.exposed.dao.IntIdTable
 /**
  * "User" Table Definition.
  */
-internal object UserTable : IntIdTable("user") {
+object UserTable : IntIdTable("user") {
 
-    val username =
+    val userName =
             varchar("username", 20)
 
     val password =

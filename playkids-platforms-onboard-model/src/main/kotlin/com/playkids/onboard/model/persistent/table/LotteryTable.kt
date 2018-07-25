@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.IntIdTable
 /**
  * "Lottery" Table Definition.
  */
-internal object LotteryTable : IntIdTable("lottery") {
+object LotteryTable : IntIdTable("lottery") {
 
     val status =
             enumeration("status", LotteryConstants.StatusConstants::class.java)

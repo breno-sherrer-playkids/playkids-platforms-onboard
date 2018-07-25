@@ -1,9 +1,11 @@
 buildscript {
     ext.kotlin_version = '1.2.51'
+    ext.ktor_version = '0.9.3'
 
     repositories {
         mavenCentral()
     }
+
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -26,11 +28,10 @@ kotlin {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile 'org.jetbrains.exposed:exposed:0.10.3'
+    compile "io.ktor:ktor-server-netty:$ktor_version"
+    compile "io.ktor:ktor-jackson:$ktor_version"
 
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.21'
-
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.0'
-
-    compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
+    compile project(':playkids-platforms-onboard-model')
+    compile project(':playkids-platforms-onboard-utils')
+    compile project(':playkids-platforms-onboard-business')
 }

@@ -22,7 +22,7 @@ abstract class Routable {
     /**
      * Service specific path value, e.g.: "/user", "/car", "/billing".
      */
-    abstract val SERVICE_PATH: String
+    abstract val servicePath: String
 
     /**
      * Configures the desired route for the given [Route] object.
@@ -40,7 +40,7 @@ abstract class Routable {
         started = true
 
         routing {
-            route(API_PATH + SERVICE_PATH) {
+            route(API_PATH + servicePath) {
                 configureRoute(this)
             }
         }
