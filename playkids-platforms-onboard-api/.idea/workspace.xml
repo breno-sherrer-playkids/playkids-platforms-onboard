@@ -1,72 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cf2b5c23-2611-4be9-9fed-88549b9df1bc" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/kotlinc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules/playkids-platforms-onboard_main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules/playkids-platforms-onboard_test.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../INSTRUCTIONS.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/auth/AuthenticationFilter.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/auth/SecurityToken.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/event/DatabaseEventLogger.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/event/Event.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/event/EventLogger.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/services/AuthenticationService.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/services/EmailService.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/services/LotteryService.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/services/TicketService.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/main/kotlin/com/playkids/business/services/UserService.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/test/kotlin/com/playkids/business/Assertions.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/test/kotlin/com/playkids/business/services/AuthenticationServiceTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/test/kotlin/com/playkids/business/services/EmailServiceTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/test/kotlin/com/playkids/business/services/LotteryServiceTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/test/kotlin/com/playkids/business/services/TicketServiceTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/test/kotlin/com/playkids/business/services/UserServiceTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-business/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-commons/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-commons/src/main/kotlin/com/playkids/onboard/commons/DomainException.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-commons/src/main/kotlin/com/playkids/onboard/commons/EntityNotFoundException.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-commons/src/main/kotlin/com/playkids/onboard/commons/ValidationException.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-commons/src/main/kotlin/com/playkids/onboard/commons/ValidationIssue.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/dto/LotteryDTO.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/dto/TicketDTO.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/DatabaseConfigurator.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/constants/LotteryConstants.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/constants/UserConstants.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/dao/DAORepository.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/entity/EventLog.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/entity/Lottery.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/entity/Ticket.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/entity/User.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/schema.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/table/EventLogTable.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/table/LotteryTable.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/table/TicketTable.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-model/src/main/kotlin/com/playkids/onboard/model/persistent/table/UserTable.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/src/main/kotlin/com/playkids/onboard/server/ApplicationMain.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/src/main/kotlin/com/playkids/onboard/server/routing/ApplicationRouter.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/src/main/kotlin/com/playkids/onboard/server/routing/Routable.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/src/main/kotlin/com/playkids/onboard/server/routing/routes/AuthenticationRoute.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/src/main/kotlin/com/playkids/onboard/server/routing/routes/LotteryRoute.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/src/main/kotlin/com/playkids/onboard/server/routing/routes/MainRoute.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/src/main/kotlin/com/playkids/onboard/server/routing/routes/TicketRoute.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/src/main/kotlin/com/playkids/onboard/server/routing/routes/UserRoute.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../playkids-platforms-onboard-server/src/main/resources/application.conf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../settings.gradle" beforeDir="false" />
-    </list>
+    <list default="true" id="cf2b5c23-2611-4be9-9fed-88549b9df1bc" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -111,29 +46,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/playkids-platforms-onboard-api-server/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.gradle" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/settings.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="15" lean-forward="true" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ApplicationMain.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ApplicationMain.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/playkids-platforms-onboard-api-server/src/main/kotlin/com/playkids/onboard/server/ApplicationMain.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" selection-start-line="29" selection-end-line="29" />
+            <state relative-caret-position="405">
+              <caret line="27" column="3" lean-forward="true" selection-start-line="27" selection-start-column="3" selection-end-line="27" selection-end-column="3" />
               <folding>
                 <element signature="e#37#862#0" expanded="true" />
               </folding>
@@ -1706,7 +1623,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Ktor">
     <configuration name="Ktor" type="Application" factoryName="Application">
       <envs>
         <env name="email_user" value="breno.sherrer@playkids.com" />
@@ -1757,6 +1674,29 @@
       <properties />
       <listeners />
     </configuration>
+    <configuration name="Specs in " type="org.spekframework.spek-jvm" factoryName="Spek - JVM" temporary="true" nameIsGenerated="true">
+      <module name="playkids-platforms-onboard-api-business_test" />
+      <option name="target" value="package" />
+      <option name="package" value="" />
+      <option name="vm-parameters" value="" />
+      <option name="program-parameters" value="" />
+      <option name="working-directory" value="" />
+      <option name="alternative-jre-path" value="" />
+      <option name="pass-parent-envs" value="true" />
+      <envs>
+        <env name="email_user" value="breno.sherrer@playkids.com" />
+        <env name="email_password" value="Asd2606652" />
+      </envs>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Ktor" />
+      <item itemvalue="Spek - JVM.Specs in " />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spek - JVM.Specs in " />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -1780,11 +1720,11 @@
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32896176" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32896176" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25239617" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25239617" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.32896176" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1838,23 +1778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/playkids-platforms-onboard-api-server/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" column="4" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/playkids-platforms-onboard-api-server/src/main/kotlin/com/playkids/onboard/server/ApplicationMain.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="e#37#862#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -1873,6 +1796,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="8" column="15" lean-forward="true" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playkids-platforms-onboard-api-server/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" column="56" lean-forward="true" selection-start-line="21" selection-start-column="56" selection-end-line="21" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/playkids-platforms-onboard-api-server/src/main/kotlin/com/playkids/onboard/server/ApplicationMain.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="3" lean-forward="true" selection-start-line="27" selection-start-column="3" selection-end-line="27" selection-end-column="3" />
+          <folding>
+            <element signature="e#37#862#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
