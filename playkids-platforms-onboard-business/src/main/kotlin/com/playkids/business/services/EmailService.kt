@@ -7,6 +7,16 @@ import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.HtmlEmail
 
 /**
+ * Environment variable that holds the e-mail.
+ */
+const val ENV_EMAIL_USER = "email_user"
+
+/**
+ * Environment variable that holds teh e-mail password.
+ */
+const val ENV_EMAIL_PASSWORD = "email_password"
+
+/**
  * E-Mail Services.
  */
 class EmailService(
@@ -17,8 +27,8 @@ class EmailService(
      */
     suspend fun sendEmail(destination: String, subject: String, message: String) {
 
-        val sender = System.getenv("email_user")
-        val password = System.getenv("email_password")
+        val sender = System.getenv(ENV_EMAIL_USER)
+        val password = System.getenv(ENV_EMAIL_PASSWORD)
 
         val email = HtmlEmail()
         email.hostName = "smtp.googlemail.com"

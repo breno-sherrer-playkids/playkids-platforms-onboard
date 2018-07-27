@@ -22,7 +22,7 @@ class EmailServiceTest : Spek({
 
             it("should send an email") {
                 runBlocking {
-                    emailService.sendEmail("breno.sherrer@playkids.com", "unit tests", "working")
+                    emailService.sendEmail(System.getenv(ENV_EMAIL_USER), "unit tests", "working")
                 }
             }
         }
