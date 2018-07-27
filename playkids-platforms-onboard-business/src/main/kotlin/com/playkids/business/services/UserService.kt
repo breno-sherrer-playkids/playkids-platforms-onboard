@@ -4,11 +4,11 @@ import com.playkids.business.auth.SecurityToken
 import com.playkids.business.auth.UserSecurityToken
 import com.playkids.business.event.Event
 import com.playkids.business.event.EventLogger
-import com.playkids.onboard.commons.DomainException
-import com.playkids.onboard.commons.EntityNotFoundException
+import com.playkids.onboard.commons.ValidationException
 import com.playkids.onboard.commons.ValidationIssue
 import com.playkids.onboard.model.persistent.DatabaseConfigurator
 import com.playkids.onboard.model.persistent.constants.UserConstants
+import com.playkids.onboard.model.persistent.dao.UserDAO
 import com.playkids.onboard.model.persistent.entity.User
 import com.playkids.onboard.model.persistent.table.UserTable
 import io.ktor.util.encodeBase64
@@ -22,7 +22,7 @@ import java.math.RoundingMode
  */
 class UserService(
         private val eventLogger: EventLogger,
-        private val userDAO: User.DAO) {
+        private val userDAO: UserDAO) {
 
     /**
      * Creates an User Entity.
@@ -61,7 +61,7 @@ class UserService(
                 }
 
                 if (issues.isNotEmpty()) {
-                    throw DomainException(issues)
+                    throw ValidationException(issues)
                 }
 
                 launch {
@@ -87,7 +87,7 @@ class UserService(
             }
 
     /**
-     * Find an matching User by its email and password.
+     * Find a matching User by its email and password.
      */
     suspend fun findByCredentials(securityToken: SecurityToken, email: String, password: String) =
             DatabaseConfigurator.transactionalContext {
@@ -103,7 +103,7 @@ class UserService(
     suspend fun buyCredits(securityToken: SecurityToken, quantity: BigDecimal?) {
 
         if (quantity == null || quantity <= BigDecimal.ZERO) {
-            throw DomainException(listOf(UserValidationIssue.CREDITS_INVALID_QUANTITY))
+            throw ValidationException(listOf(UserValidationIssue.CREDITS_INVALID_QUANTITY))
         }
 
         if (securityToken !is UserSecurityToken) {
@@ -111,8 +111,7 @@ class UserService(
         }
 
         DatabaseConfigurator.transactionalContext {
-            val user = userDAO.findById(securityToken.user.id)
-                    ?: throw EntityNotFoundException(User::class, securityToken.user.id.value)
+            val user = securityToken.user
 
             user.credits = user.credits.add(quantity.setScale(2, RoundingMode.HALF_UP))
         }

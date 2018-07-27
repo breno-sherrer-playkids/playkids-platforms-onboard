@@ -10,7 +10,6 @@ open class DomainException(
         val httpStatusCode: HttpStatusCode = HttpStatusCode.BadRequest) : RuntimeException() {
 
     constructor(title: String, description: String) : this(listOf(ErrorDetail(title, description)))
-    constructor(issues: Collection<ValidationIssue>) : this(issues.map { ErrorDetail(it.title, it.description) })
 
     /**
      * Details for the Error.

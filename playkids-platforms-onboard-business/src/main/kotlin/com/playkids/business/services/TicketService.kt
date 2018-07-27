@@ -4,11 +4,13 @@ import com.playkids.business.auth.SecurityToken
 import com.playkids.business.auth.UserSecurityToken
 import com.playkids.business.event.Event
 import com.playkids.business.event.EventLogger
-import com.playkids.onboard.commons.DomainException
 import com.playkids.onboard.commons.EntityNotFoundException
+import com.playkids.onboard.commons.ValidationException
 import com.playkids.onboard.commons.ValidationIssue
 import com.playkids.onboard.model.persistent.DatabaseConfigurator
 import com.playkids.onboard.model.persistent.constants.LotteryConstants
+import com.playkids.onboard.model.persistent.dao.LotteryDAO
+import com.playkids.onboard.model.persistent.dao.TicketDAO
 import com.playkids.onboard.model.persistent.entity.Lottery
 import com.playkids.onboard.model.persistent.entity.Ticket
 import com.playkids.onboard.model.persistent.table.TicketTable
@@ -19,8 +21,8 @@ import org.joda.time.DateTime
  */
 class TicketService(
         private val eventLogger: EventLogger,
-        private val ticketDAO: Ticket.DAO,
-        private val lotteryDAO: Lottery.DAO) {
+        private val ticketDAO: TicketDAO,
+        private val lotteryDAO: LotteryDAO) {
 
     /**
      * Buy a Ticket.
@@ -32,7 +34,7 @@ class TicketService(
         }
 
         if (idLottery == null) {
-            throw DomainException(listOf(TicketValidationIssue.LOTTERY_NOT_SPECIFIED))
+            throw ValidationException(listOf(TicketValidationIssue.LOTTERY_NOT_SPECIFIED))
         }
 
         DatabaseConfigurator.transactionalContext {
@@ -45,13 +47,13 @@ class TicketService(
             if (lottery.status != LotteryConstants.StatusConstants.PENDING
                     || !lottery.lotteryDateTime.isAfterNow) {
 
-                throw DomainException(listOf(TicketValidationIssue.LOTTERY_INVALID))
+                throw ValidationException(listOf(TicketValidationIssue.LOTTERY_INVALID))
             }
 
             val user = securityToken.user
 
             if (lottery.ticketPrice > user.credits) {
-                throw DomainException(listOf(TicketValidationIssue.INSUFFICIENT_FUNDS))
+                throw ValidationException(listOf(TicketValidationIssue.INSUFFICIENT_FUNDS))
             }
 
             user.credits = user.credits.subtract(lottery.ticketPrice)
