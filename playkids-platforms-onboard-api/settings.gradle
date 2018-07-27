@@ -1,0 +1,9 @@
+String[] modules = [
+        'playkids-platforms-onboard-api-server',
+        'playkids-platforms-onboard-api-model',
+        'playkids-platforms-onboard-api-business',
+        'playkids-platforms-onboard-api-commons'
+]
+
+rootProject.name = 'playkids-platforms-onboard-api'
+include modules
