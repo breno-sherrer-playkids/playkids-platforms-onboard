@@ -11,7 +11,7 @@ playkids-platforms-onboard-api/clionSDK
 playkids-platforms-onboard-api/android-studio/sdk
 playkids-platforms-onboard-api/out/
 playkids-platforms-onboard-api/tmp
-playkids-platforms-onboard-api/workspace.xml
+playkids-platforms-onboard-api/.idea/workspace.xml
 playkids-platforms-onboard-api/*.versionsBackup
 playkids-platforms-onboard-api/idea/testData/debugger/tinyApp/classes*
 playkids-platforms-onboard-api/jps-plugin/testData/kannotator
