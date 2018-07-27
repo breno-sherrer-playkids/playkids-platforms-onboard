@@ -1,6 +1,6 @@
 package com.playkids.onboard.server.routing
 
-import com.playkids.business.event.EventLogger
+import com.playkids.business.event.DatabaseEventLogger
 import com.playkids.business.services.*
 import com.playkids.onboard.model.persistent.entity.EventLog
 import com.playkids.onboard.model.persistent.entity.Lottery
@@ -15,7 +15,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory
  */
 object ApplicationRouter {
 
-    private val eventLogger = EventLogger(EventLog.DAO)
+    private val eventLogger = DatabaseEventLogger(EventLog.DAO)
 
     private val emailService = EmailService(eventLogger)
     private val userService = UserService(eventLogger, User.DAO)

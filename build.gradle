@@ -22,6 +22,10 @@ allprojects {
         maven {
             url "https://dl.bintray.com/kotlin/exposed"
         }
+
+        maven {
+            url "http://dl.bintray.com/jetbrains/spek"
+        }
     }
 }
 

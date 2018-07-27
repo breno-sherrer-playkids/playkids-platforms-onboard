@@ -3,10 +3,10 @@ package com.playkids.onboard.model.persistent.entity
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.playkids.onboard.model.dto.TicketDTO
 import com.playkids.onboard.model.persistent.DatabaseConfigurator
+import com.playkids.onboard.model.persistent.dao.TicketDAO
 import com.playkids.onboard.model.persistent.table.TicketTable
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
-import org.jetbrains.exposed.dao.IntEntityClass
 
 /**
  * "Ticket" Entity.
@@ -16,7 +16,7 @@ class Ticket(ID: EntityID<Int>) : IntEntity(ID) {
     /**
      * DAO nested Singleton.
      */
-    object DAO : IntEntityClass<Ticket>(TicketTable)
+    object DAO : TicketDAO()
 
     @get:JsonIgnore
     var user

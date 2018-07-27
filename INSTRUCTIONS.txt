@@ -1,0 +1,7 @@
+First of all, you need to set-up your environment to be able to send e-mails.
+To do so, edit the file "config.sh" and set your e-mail and password.
+
+After that, in the same shell session you'll execute the project itself, use:
+$ source ./config.sh
+
+Now you're ready to go. Use "$ ./gradlew run" and be happy.

@@ -4,11 +4,11 @@ import com.playkids.business.auth.SecurityToken
 import com.playkids.business.auth.ServerSecurityToken
 import com.playkids.business.event.Event
 import com.playkids.business.event.EventLogger
-import com.playkids.onboard.commons.DomainException
+import com.playkids.onboard.commons.ValidationException
 import com.playkids.onboard.commons.ValidationIssue
 import com.playkids.onboard.model.persistent.DatabaseConfigurator
 import com.playkids.onboard.model.persistent.constants.LotteryConstants
-import com.playkids.onboard.model.persistent.entity.Lottery
+import com.playkids.onboard.model.persistent.dao.LotteryDAO
 import com.playkids.onboard.model.persistent.table.LotteryTable
 import io.netty.util.internal.logging.InternalLoggerFactory
 import kotlinx.coroutines.experimental.CoroutineExceptionHandler
@@ -23,7 +23,7 @@ import java.util.*
  */
 class LotteryService(
         private val eventLogger: EventLogger,
-        private val lotteryDAO: Lottery.DAO,
+        private val lotteryDAO: LotteryDAO,
         private val emailService: EmailService) {
 
     /**
@@ -38,7 +38,7 @@ class LotteryService(
             issues.add(LotteryValidationIssue.TITLE_BLANK)
 
         } else if (title!!.length < 8) {
-            issues.add(LotteryValidationIssue.TITLE_BLANK)
+            issues.add(LotteryValidationIssue.TITLE_TOO_SHORT)
 
         }
 
@@ -51,11 +51,11 @@ class LotteryService(
         }
 
         if (lotteryDateTime == null || lotteryDateTime.isBeforeNow) {
-            issues.add(LotteryValidationIssue.LOTTERYDATETIME_INVALID)
+            issues.add(LotteryValidationIssue.LOTTERY_DATETIME_INVALID)
         }
 
         if (issues.isNotEmpty()) {
-            throw DomainException(issues)
+            throw ValidationException(issues)
         }
 
         DatabaseConfigurator.transactionalContext {
@@ -85,7 +85,7 @@ class LotteryService(
     /**
      * Return all Lotteries whose Raffle is pending.
      */
-    private suspend fun getAllPendingRaffle(securityToken: SecurityToken) =
+    suspend fun getAllPendingRaffle(securityToken: SecurityToken) =
             DatabaseConfigurator.transactionalContext {
 
                 lotteryDAO.find {
@@ -114,9 +114,9 @@ class LotteryService(
                 val winnerTicket = tickets[Random().nextInt(tickets.size)]
                 val winnerUser = winnerTicket.user
 
-                InternalLoggerFactory
-                        .getInstance(this::class.java)
-                        .info("Raffle: Lottery '${it.title}' winner: ${winnerUser.email}")
+                val logger = InternalLoggerFactory.getInstance(this::class.java)
+
+                logger.info("Raffle: Lottery '${it.title}' winner: ${winnerUser.email}")
 
                 it.winnerTicket = winnerTicket
                 it.status = LotteryConstants.StatusConstants.FINALIZED
@@ -129,7 +129,7 @@ class LotteryService(
                 }
 
                 val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
-                    println("Failed to send E-Mail: ${throwable.localizedMessage}")
+                    logger.error("Failed to send E-Mail: ${throwable.localizedMessage}")
                 }
 
                 launch(coroutineExceptionHandler) {
@@ -172,7 +172,7 @@ class LotteryService(
                 "Ticket Price must be greater than Zero"
         ),
 
-        LOTTERYDATETIME_INVALID(
+        LOTTERY_DATETIME_INVALID(
                 "Failed to create a Lottery",
                 "Lottery Date Time must be greater than the current date time"
         )

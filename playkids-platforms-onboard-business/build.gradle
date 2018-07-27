@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
     }
 }
 
@@ -16,6 +17,15 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+junitPlatform {
+    filters {
+        engines {
+            include 'spek'
+        }
+    }
+}
 
 sourceCompatibility = 1.8
 
@@ -33,4 +43,10 @@ dependencies {
 
     compile project(':playkids-platforms-onboard-model')
     compile project(':playkids-platforms-onboard-commons')
+
+    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: '1.2.51'
+
+    testCompile 'org.jetbrains.spek:spek-api:1.1.5'
+    testRuntime 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
+    testCompile group: 'com.nhaarman', name: 'mockito-kotlin', version: '1.6.0'
 }

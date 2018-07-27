@@ -2,11 +2,11 @@ package com.playkids.onboard.model.persistent.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.playkids.onboard.model.dto.LotteryDTO
+import com.playkids.onboard.model.persistent.dao.LotteryDAO
 import com.playkids.onboard.model.persistent.table.LotteryTable
 import com.playkids.onboard.model.persistent.table.TicketTable
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
-import org.jetbrains.exposed.dao.IntEntityClass
 
 /**
  * "Lottery" Entity.
@@ -16,7 +16,7 @@ class Lottery(ID: EntityID<Int>) : IntEntity(ID) {
     /**
      * DAO nested Singleton.
      */
-    object DAO : IntEntityClass<Lottery>(LotteryTable)
+    object DAO : LotteryDAO()
 
     var status
             by LotteryTable.status
