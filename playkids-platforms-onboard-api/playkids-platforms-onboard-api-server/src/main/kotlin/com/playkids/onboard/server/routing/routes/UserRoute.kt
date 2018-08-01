@@ -42,7 +42,10 @@ class UserRoute(
             post("/buy-credits") {
 
                 val payload = call.receive<HashMap<String, Any>>()
-                val quantity = (payload["quantity"] as Number?)?.toDouble()?.toBigDecimal()
+
+                val rawQuantity = payload["quantity"]
+                val numberQuantity = if (rawQuantity is String) rawQuantity.toBigDecimalOrNull() else rawQuantity as Number?
+                val quantity = numberQuantity?.toDouble()?.toBigDecimal()
 
                 userService.buyCredits(call.securityToken(), quantity)
 

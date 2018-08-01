@@ -9,10 +9,9 @@ import com.playkids.onboard.server.routing.ApplicationRouter
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
-import io.ktor.features.CallLogging
-import io.ktor.features.ContentNegotiation
-import io.ktor.features.DefaultHeaders
-import io.ktor.features.StatusPages
+import io.ktor.features.*
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpMethod
 import io.ktor.jackson.jackson
 import io.ktor.response.respond
 import io.ktor.routing.Routing
@@ -58,6 +57,20 @@ fun Application.main() {
         exception<DomainException> {
             call.respond(it.httpStatusCode, it.errors)
         }
+    }
+
+    install(CORS)
+    {
+        anyHost()
+
+        method(HttpMethod.Options)
+        method(HttpMethod.Get)
+        method(HttpMethod.Post)
+        header(HttpHeaders.XForwardedProto)
+        header(HttpHeaders.Authorization)
+        header(HttpHeaders.Origin)
+        allowCredentials = true
+//        maxAge = Duration.ofDays(1)
     }
 
     install(Routing) {
