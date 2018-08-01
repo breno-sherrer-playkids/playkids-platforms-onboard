@@ -1,0 +1,4 @@
+To run the application, execute:
+$ npm run dev
+
+Then open http://localhost:8080/ on your desired browser.

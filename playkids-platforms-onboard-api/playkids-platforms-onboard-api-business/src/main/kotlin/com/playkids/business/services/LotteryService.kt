@@ -109,12 +109,21 @@ class LotteryService(
 
             DatabaseConfigurator.transactionalContext {
 
+                val logger = InternalLoggerFactory.getInstance(this::class.java)
+
                 val tickets = it.tickets.toList()
+
+                // Cancel the lottery if no tickets were sold
+                if (tickets.isEmpty()) {
+                    it.status = LotteryConstants.StatusConstants.CANCELED
+
+                    logger.info("Raffle: Lottery '${it.title}' CANCELED!")
+
+                    return@transactionalContext
+                }
 
                 val winnerTicket = tickets[Random().nextInt(tickets.size)]
                 val winnerUser = winnerTicket.user
-
-                val logger = InternalLoggerFactory.getInstance(this::class.java)
 
                 logger.info("Raffle: Lottery '${it.title}' winner: ${winnerUser.email}")
 
