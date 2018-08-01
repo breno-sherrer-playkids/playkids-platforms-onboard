@@ -40,9 +40,11 @@ dependencies {
     compile "io.ktor:ktor-auth-jwt:$ktor_version"
 
     compile group: 'org.apache.commons', name: 'commons-email', version: '1.5'
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
 
     compile project(':playkids-platforms-onboard-api-model')
     compile project(':playkids-platforms-onboard-api-commons')
+
 
     testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: '1.2.51'
 
