@@ -70,8 +70,8 @@ export default {
   data() {
     return {
       auth: {
-        email: "breno.sherrer@playkids.com",
-        password: "brenaobreninho"
+        email: "",
+        password: ""
       },
       rules: {
         email: [

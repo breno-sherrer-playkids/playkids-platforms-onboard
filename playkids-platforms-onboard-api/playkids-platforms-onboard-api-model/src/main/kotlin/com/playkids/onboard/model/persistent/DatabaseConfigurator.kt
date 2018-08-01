@@ -19,7 +19,7 @@ object DatabaseConfigurator {
                 url = "jdbc:postgresql://127.0.0.1/playkids-onboard-lottery",
                 driver = "org.postgresql.Driver",
                 user = "postgres",
-                password = "admin"
+                password = "root"
         )
     }
 

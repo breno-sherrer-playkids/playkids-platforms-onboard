@@ -61,7 +61,7 @@ class LotteryRoute(
      * Launches a Fixed Timed-Task to Raffle the pending Lotteries.
      */
     private fun launchLotteryRaffleTask() =
-            fixedRateTimer(null, true, 15_000, 600_000) {
+            fixedRateTimer(null, true, 15_000, 30_000) {
                 launch {
                     lotteryService.computePendingLotteryWinners(ServerSecurityToken)
                 }

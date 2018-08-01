@@ -4,8 +4,21 @@ To do so, edit the file "config.sh" and set your e-mail and password.
 After that, in the same shell session you'll execute the project itself, use:
 $ source config.sh
 
+You'll need to create a Postgres database named 'playkids-onboard-lottery'
+(exactly) with the structure defined in the file:
+
+playkids-platforms-onboard-api-model/src/main/kotlin/com/playkids/onboard/model/persistent/schema.sql
+
 Now you're ready to go. Use "$ ./gradlew run" and be happy.
 
 NOTE: you have to enable third-part apps to use your gmail account (if it's a
 gmail account). You'll receive an e-mail from google reporting the attempt to
 use your e-mail, in that e-mail you'll be able to enable third-part apps.
+
+NOTE 2: PostgreSQL user has to be postgres with the password 'root'. If you need another
+password, change the file:
+
+playkids-platforms-onboard-api-model/src/main/kotlin/com/playkids/onboard/model/persistent/DatabaseConfigurator.kt
+
+NOTE 3: To create a Lottery, you can use the api (/api/lottery POST) or directly via database insert as the
+frontend has no entries to create a Lottery.

@@ -11,9 +11,8 @@ import com.playkids.onboard.model.persistent.constants.UserConstants
 import com.playkids.onboard.model.persistent.dao.UserDAO
 import com.playkids.onboard.model.persistent.entity.User
 import com.playkids.onboard.model.persistent.table.UserTable
-import io.ktor.util.encodeBase64
 import kotlinx.coroutines.experimental.launch
-import org.jetbrains.exposed.sql.and
+import org.mindrot.jbcrypt.BCrypt
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -70,7 +69,7 @@ class UserService(
 
                 return@transactionalContext userDAO.new {
                     this.email = email!!
-                    this.password = encodeBase64(password!!.toByteArray())
+                    this.password = BCrypt.hashpw(password!!, BCrypt.gensalt())
                     this.credits = BigDecimal(UserConstants.DEFAULT_CREDITS_SIGNUP)
                 }
             }
@@ -93,8 +92,10 @@ class UserService(
             DatabaseConfigurator.transactionalContext {
 
                 userDAO.find {
-                    UserTable.email eq email and (UserTable.password eq encodeBase64(password.toByteArray()))
-                }.firstOrNull()
+                    UserTable.email eq email
+                }.firstOrNull {
+                    BCrypt.checkpw(password, it.password)
+                }
             }
 
     /**

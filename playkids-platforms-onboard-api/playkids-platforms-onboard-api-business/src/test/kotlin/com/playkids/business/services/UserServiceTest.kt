@@ -16,6 +16,7 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
+import org.mindrot.jbcrypt.BCrypt
 import java.math.BigDecimal
 import kotlin.test.*
 
@@ -213,6 +214,9 @@ class UserServiceTest : Spek({
 
                 whenever(mockUserDAO.find(any<SqlExpressionBuilder.() -> Op<Boolean>>()))
                         .thenReturn(SizedCollection(listOf(mockUser)))
+
+                doReturn(BCrypt.hashpw("anyPassword", BCrypt.gensalt()))
+                        .whenever(mockUser).password
 
                 assertNotNull(
                         runBlocking {
