@@ -23,7 +23,7 @@ fun Route.authenticate(authenticationService: AuthenticationService) {
         call.request.header(HttpHeaders.Authorization)
                 ?.let { extractSecurityToken(authenticationService, it) }
                 ?.also { call.attributes.put(SECURITY_TOKEN_ATTRIBUTE, it) }
-                ?: call.respond(HttpStatusCode.Forbidden, "Invalid credentials")
+                ?: call.respond(HttpStatusCode.Unauthorized, "Invalid credentials")
     }
 }
 

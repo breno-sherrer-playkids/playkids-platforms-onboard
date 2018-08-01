@@ -7,6 +7,7 @@ import com.playkids.onboard.server.routing.Routable
 import io.ktor.application.call
 import io.ktor.http.HttpStatusCode
 import io.ktor.request.receive
+import io.ktor.response.header
 import io.ktor.response.respond
 import io.ktor.routing.Route
 import io.ktor.routing.post
@@ -36,11 +37,13 @@ class AuthenticationRoute(
                     val user = userService.findByCredentials(ServerSecurityToken, username, password)
 
                     if (user != null) {
-                        call.respond(AuthenticationResponse(authenticationService.generateToken(user)))
+                        val token = authenticationService.generateToken(user)
+                        call.response.header("Authorization", "Bearer $token")
+                        call.respond(AuthenticationResponse(token))
                     }
                 }
 
-                call.respond(HttpStatusCode.Forbidden, "Invalid credentials")
+                call.respond(HttpStatusCode.Unauthorized, "Invalid credentials")
             }
 
             /**
@@ -51,7 +54,10 @@ class AuthenticationRoute(
 
                 val user = userService.createUser(ServerSecurityToken, username, password)
 
-                call.respond(call.respond(AuthenticationResponse(authenticationService.generateToken(user))))
+                val token = authenticationService.generateToken(user)
+                
+                call.response.header("Authorization", "Bearer $token")
+                call.respond(call.respond(AuthenticationResponse(token)))
             }
         }
     }
